@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource name="sqlserverConnector"
+		      auth="Container"
+		      type="javax.sql.DataSource"
+		      username="sa"
+		      password="passw0rd"
+		      url="jdbc:sqlserver://localhost:1433;databaseName=Fundraising"
+		      driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" 
+	/>
+</Context>

@@ -9,6 +9,6 @@ public class Test1 {
 		System.out.println("Aloni part2 OKay");
 		System.out.println("hello");
 	    System.out.println("yao123");
-	    System.out.println("Dia");
+	    System.out.println("Dia22222");
 	}
 }

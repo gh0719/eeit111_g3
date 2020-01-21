@@ -2,11 +2,15 @@ package moderl;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "fund_projects")
@@ -34,6 +38,7 @@ public class FundProject {
 	@OneToMany(mappedBy = "fundProject")
 	private Set<FundSettle> fundSettles = new HashSet<FundSettle>();
 
+	
 	public int getFundProjectId() {
 		return fundProjectId;
 	}

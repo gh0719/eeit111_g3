@@ -21,7 +21,7 @@ public class Return {
 	private String returnDetailName;
 	@Column(name = "return_Detail_Amount")
 	private int returnDetailAmount;
-	@Column(name = "return_Detail_Price")
+	@Column(name = "return_Detail_Price") 
 	private int returnDetailPrice;
 	@Column(name = "return_Total")
 	private int returnTotal;

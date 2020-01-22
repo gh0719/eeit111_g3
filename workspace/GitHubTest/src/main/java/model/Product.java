@@ -53,8 +53,12 @@ public class Product {
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<Msg> msgs = new HashSet<Msg>();
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
+	private	Set<Report>	Reports	 = new HashSet<Report>	();
 
-	public int getProductId() {
+
+	public int getProductId() { 
 		return productId;
 	}
 

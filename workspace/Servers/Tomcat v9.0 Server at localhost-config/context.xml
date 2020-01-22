@@ -16,6 +16,14 @@
   limitations under the License.
 --><!-- The contents of this file will be loaded for each web application --><Context>
 
+<Resource url="jdbc:sqlserver://localhost:1433;databaseName=Fundraising"
+     driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+     password="passw0rd" 
+     username="sa" 
+     auth="Container" 
+     type="javax.sql.DataSource" 
+     name="connectSQLServerJdbc/OrderService"/>
+
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                   -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>

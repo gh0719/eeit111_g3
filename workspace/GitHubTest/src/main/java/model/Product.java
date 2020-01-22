@@ -58,7 +58,7 @@ public class Product {
 	private	Set<Report>	Reports	 = new HashSet<Report>	();
 
 
-	public int getProductId() {
+	public int getProductId() { 
 		return productId;
 	}
 

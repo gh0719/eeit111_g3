@@ -3,11 +3,14 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,27 +22,41 @@ public class OrderDetail {
 	@Column(name = "order_detail_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderDetailId;
+	
 	@Column(name = "order_detail_name")
 	private String orderDetailName;
+	
 	@Column(name = "order_detail_amount")
 	private int orderDetailAmount;
+	
 	@Column(name = "order_detail_price")
 	private int orderDetailPrice;
+	
 	@Column(name = "order_delivery_name")
 	private String orderDeliveryName;
+	
 	@Column(name = "order_delivery_method")
 	private String orderDeliveryMethod;
+	
 	@Column(name = "order_delivery_number")
 	private String orderDeliveryNumber;
+	
 	@Column(name = "order_delivery_status")
 	private String orderDeliveryStatus;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
+	
 	@ManyToOne
+	@JoinColumn(name = "product_id")
 	private Product product;
+	
 	@ManyToOne
+	@JoinColumn(name = "order_id")
 	private Order order;
-	@OneToMany(mappedBy = "ordersDetail")
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "ordersDetail", cascade = CascadeType.ALL)
 	private Set<Return> returns = new HashSet<Return>();
 
 	public int getOrderDetailId() {

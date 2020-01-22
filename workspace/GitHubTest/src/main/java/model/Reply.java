@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,13 +16,19 @@ public class Reply {
 	@Column(name = "reply_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int replyId;
+	
 	@Column(name = "reply_pf")
 	private String replyPf;
+	
 	@Column(name = "reply_pic")
 	private byte replyPic;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
+	
 	@ManyToOne
+	@JoinColumn(name = "msg_id")
 	private Msg msg;
 
 	public int getReplyId() {

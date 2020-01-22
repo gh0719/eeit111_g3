@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,27 +18,41 @@ public class Return {
 	@Column(name = "return_Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int returnId;
+	
 	@Column(name = "return_Detail_Name")
 	private String returnDetailName;
+	
 	@Column(name = "return_Detail_Amount")
 	private int returnDetailAmount;
+	
 	@Column(name = "return_Detail_Price") 
 	private int returnDetailPrice;
+	
 	@Column(name = "return_Total")
 	private int returnTotal;
+	
 	@Column(name = "return_Status")
 	private String returnStatus;
+	
 	@Column(name = "return_Reason")
 	private String returnReason;
+	
 	@Column(name = "return_Method")
 	private String returnMethod;
+	
 	@Column(name = "return_Date")
 	private Date returnDate;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
+	
 	@ManyToOne
+	@JoinColumn(name = "product_id")
 	private Product product;
+	
 	@ManyToOne
+	@JoinColumn(name = "order_detail_id")
 	private OrderDetail ordersDetail;
 
 	public int getReturnId() {

@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,19 +23,28 @@ public class FundMsg {
 	@Column(name = "fund_msg_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fundMsgId;
+	
 	@Column(name = "fund_msg_tital")
 	private String fundMsgTital;
+	
 	@Column(name = "fund_msg_pf")
 	private String fundMsgPf;
+	
 	@Column(name = "fund_msg_pic")
 	private byte fundMsgPic;
+	
 	@Column(name = "fund_msg_date")
 	private Date fundMsgDate;
+	
 	@ManyToOne
+	@JoinColumn(name = "member_id")
 	private Member member;
+	
 	@ManyToOne
+	@JoinColumn(name = "fund_product_id")
 	private FundProduct funProduct;
-	@OneToMany
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fundMsg", cascade = CascadeType.ALL)
 	private Set<FundReply> fundReply = new HashSet<FundReply>();
 
 	public int getFundMsgId() {

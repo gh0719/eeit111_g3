@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,19 +23,28 @@ public class Msg {
 	@Column(name = "msg_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int msgId;
+	
 	@Column(name = "msg_tital")
 	private String msgTital;
+	
 	@Column(name = "msg_pf")
 	private String msgPf;
+	
 	@Column(name = "msg_pic")
 	private byte msgPic;
+	
 	@Column(name = "msg_date")
 	private Date msgDate;
+	
 	@ManyToOne
+	@JoinColumn(name = "member_id")
 	private Member member;
+	
 	@ManyToOne
+	@JoinColumn(name = "product_id")
 	private Product product;
-	@OneToMany(mappedBy = "msg")
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "msg", cascade = CascadeType.ALL)
 	private Set<Reply> replys = new HashSet<Reply>();
 
 	public int getMsgId() {

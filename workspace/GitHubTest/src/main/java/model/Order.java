@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,23 +23,33 @@ public class Order {
 	@Column(name = "order_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderId;
+	
 	@Column(name = "order_total")
 	private int orderTotal;
+	
 	@Column(name = "order_status")
 	private String orderStatus;
+	
 	@Column(name = "order_name")
 	private String orderName;
+	
 	@Column(name = "order_phone")
 	private int orderPhone;
+	
 	@Column(name = "order_address")
 	private String orderAddress;
+	
 	@Column(name = "order_date")
 	private Date orderDate;
+	
 	@ManyToOne
+	@JoinColumn(name = "member_id")
 	private Member member;
-	@OneToMany(mappedBy = "order")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderDetail> ordersDetails = new HashSet<OrderDetail>();
-	@OneToMany(mappedBy = "order")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<Assess> assess = new HashSet<Assess>();
 
 	public int getOrderId() {

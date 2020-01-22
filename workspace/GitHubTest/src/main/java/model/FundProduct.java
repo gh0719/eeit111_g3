@@ -3,11 +3,14 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,25 +22,37 @@ public class FundProduct {
 	@Column(name = "fund_product_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fundProductId;
+	
 	@Column(name = "fund_product_itemno")
 	private String fundProductItemNO;
+	
 	@Column(name = "fund_product_name")
 	private String fundProductName;
+	
 	@Column(name = "fund_product_price")
 	private int fundProductPrice;
+	
 	@Column(name = "fund_product_pic")
 	private byte fundProductPic;
+	
 	@Column(name = "fund_product_status")
 	private String fundProductStatus;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
+	
 	@ManyToOne
+	@JoinColumn(name = "fund_project_id")
 	private FundProject fundProject;
-	@OneToMany(mappedBy = "fundProduct")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fundProduct", cascade = CascadeType.ALL)
 	private Set<FundStock> fundStocks = new HashSet<FundStock>();
-	@OneToMany(mappedBy = "fundProduct")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fundProduct", cascade = CascadeType.ALL)
 	private Set<FundOrder> fundOrders = new HashSet<FundOrder>();
-	@OneToMany(mappedBy = "funProduct")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "funProduct", cascade = CascadeType.ALL)
 	private Set<FundMsg> fundMsg = new HashSet<FundMsg>();
 
 	public int getFundProductId() {

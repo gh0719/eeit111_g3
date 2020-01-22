@@ -3,11 +3,14 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,25 +22,36 @@ public class Product {
 	@Column(name = "product_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
+	
 	@Column(name = "product_itemno")
 	private String productItemNO;
+	
 	@Column(name = "product_name")
 	private String productName;
+	
 	@Column(name = "product_price")
 	private int productPrice;
+	
 	@Column(name = "product_pic")
 	private byte productPic;
+	
 	@Column(name = "product_status")
 	private String productStatus;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
-	@OneToMany(mappedBy = "product")
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<Stock> stocks = new HashSet<Stock>();
-	@OneToMany(mappedBy = "product")
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<OrderDetail> ordersDetails = new HashSet<OrderDetail>();
-	@OneToMany(mappedBy = "product")
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<Return> returns = new HashSet<Return>();
-	@OneToMany(mappedBy = "product")
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<Msg> msgs = new HashSet<Msg>();
 
 	public int getProductId() {

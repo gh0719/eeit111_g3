@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,17 +18,24 @@ public class Stock {
 	@Column(name = "stock_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int stockId;
+	
 	@Column(name = "stock_amount")
 	private int stockAmount;
+	
 	@Column(name = "stock_sales")
 	private int stockSales;
+	
 	@Column(name = "stock_last")
 	private int stocklast;
+	
 	@Column(name = "stock_status")
 	private String stockStatus;
+	
 	@Column(name = "stock_date")
 	private Date stockDate;
+	
 	@ManyToOne
+	@JoinColumn(name = "product_id")
 	private Product product;
 
 	public int getStockId() {

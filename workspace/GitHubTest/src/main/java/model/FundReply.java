@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,14 +16,20 @@ public class FundReply {
 	@Column(name = "fund_reply_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fundReplyId;
+	
 	@Column(name = "fund_reply_pf")
 	private String fundReplyPf;
+	
 	@Column(name = "fund_reply_pic")
 	private byte fundReplyPic;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
+	
 	@ManyToOne
-	private Msg msg;
+	@JoinColumn(name = "fund_msg_id")
+	private FundMsg fundMsg;
 
 	public int getFundReplyId() {
 		return fundReplyId;
@@ -56,12 +63,12 @@ public class FundReply {
 		this.store = store;
 	}
 
-	public Msg getMsg() {
-		return msg;
+	public FundMsg getFundMsg() {
+		return fundMsg;
 	}
 
-	public void setMsg(Msg msg) {
-		this.msg = msg;
+	public void setFundMsg(FundMsg fundMsg) {
+		this.fundMsg = fundMsg;
 	}
 
 }

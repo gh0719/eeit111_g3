@@ -3,11 +3,14 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,47 +22,69 @@ public class Store {
 	@Column(name = "store_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int storeId;
+	
 	@Column(name = "store_Name")
 	private String storeName;
+	
 	@Column(name = "store_pf")
 	private String storePf;
+	
 	@Column(name = "store_tel")
 	private int storeTel;
+	
 	@Column(name = "store_pic")
 	private byte storePic;
+	
 	@Column(name = "store_address")
 	private String storeAddress;
+	
 	@Column(name = "store_number")
 	private int storeNumber;
+	
 	@Column(name = "store_account")
 	private int storeAccount;
+	
 	@Column(name = "store_pi_name")
 	private String storePiName;
+	
 	@Column(name = "store_pi_twid")
 	private String storePiTwid;
+	
 	@Column(name = "store_pi_tel")
 	private int storePiTel;
+	
 	@Column(name = "store_pi_address")
 	private String storePiAddress;
+	
 	@Column(name = "store_status")
 	private String storeStatus;
+	
 	@ManyToOne
+	@JoinColumn(name = "member_id")
 	private Member member;
-	@OneToMany
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<FundProject> FundProjects = new HashSet<FundProject>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<Product> Products = new HashSet<Product>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<OrderDetail> ordersDetails = new HashSet<OrderDetail>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<Return> returns = new HashSet<Return>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<Reply> replys = new HashSet<Reply>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<FundProduct> fundProducts = new HashSet<FundProduct>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<FundReturn> fundReturns = new HashSet<FundReturn>();
-	@OneToMany(mappedBy = "store")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
 	private Set<FundReply> fundReplys = new HashSet<FundReply>();
 
 	public int getStoreId() {

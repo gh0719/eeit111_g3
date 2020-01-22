@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,17 +18,25 @@ public class FundReturn {
 	@Column(name = "fund_return_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fundReturnId;
+	
 	@Column(name = "fund_return_total")
 	private int fundReturnTotal;
+	
 	@Column(name = "fund_return_status")
 	private String fundReturnStatus;
+	
 	@Column(name = "fund_return_method")
 	private String fundReturnMethod;
+	
 	@Column(name = "fund_return_date")
 	private Date fundReturnDate;
+	
 	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
+	
 	@ManyToOne
+	@JoinColumn(name = "fund_order_id")
 	private FundOrder fundOrder;
 
 	public int getFundReturnId() {

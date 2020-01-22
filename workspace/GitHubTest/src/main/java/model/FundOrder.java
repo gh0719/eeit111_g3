@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,37 +23,56 @@ public class FundOrder {
 	@Column(name = "fund_order_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int fundOrderId;
+	
 	@Column(name = "fund_order_status")
 	private String fundOrderStatus;
+	
 	@Column(name = "fund_order_date")
 	private Date fundOrderDate;
+	
 	@Column(name = "fund_order_products_name")
 	private String fundOrderProductsName;
+	
 	@Column(name = "fund_order_price")
 	private int fundOrderPrice;
+	
 	@Column(name = "fund_order_extra_price")
 	private int fundOrderExtraPrice;
+	
 	@Column(name = "fund_order_total")
 	private int fundOrderTotal;
+	
 	@Column(name = "fund_oorder_delivery_name")
 	private String fundOorderDeliveryName;
+	
 	@Column(name = "fund_order_delivery_method")
 	private String fundOrderDeliveryMethod;
+	
 	@Column(name = "fund_order_delivery_number")
 	private String fundOrderDeliveryNumber;
+	
 	@Column(name = "fund_order_name")
 	private String fundOrderName;
+	
 	@Column(name = "fund_order_phone")
 	private int fundOrderPhone;
+	
 	@Column(name = "fund_order_address")
 	private String fundOrderAddress;
+	
 	@ManyToOne
+	@JoinColumn(name = "member_id")
 	private Member member;
+	
 	@ManyToOne
+	@JoinColumn(name = "fund_settle_id")
 	private FundSettle fundSettle;
+	
 	@ManyToOne
+	@JoinColumn(name = "fund_product_id")
 	private FundProduct fundProduct;
-	@OneToMany(mappedBy = "fundOrder")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "fundOrder", cascade = CascadeType.ALL)
 	private Set<FundReturn> fundReturns = new HashSet<FundReturn>();
 
 	public int getFundOrderId() {

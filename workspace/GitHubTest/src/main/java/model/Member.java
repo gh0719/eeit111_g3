@@ -71,6 +71,10 @@ public class Member {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
 	private Set<FundMsg> fundMsgs = new HashSet<FundMsg>();
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "member", cascade = CascadeType.ALL)
+	private	Set<Report>	Reports	 = new HashSet<Report>	();
+
 
 	public int getMemberId() {
 		return memberId;

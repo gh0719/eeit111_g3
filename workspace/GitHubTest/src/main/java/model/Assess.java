@@ -23,6 +23,7 @@ public class Assess {
 	@Column(name = "assess_grade")
 	private String assessGrade;
 	
+	
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;

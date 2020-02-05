@@ -11,10 +11,23 @@
 	<mvc:view-controller path="/" view-name="login"/>
 		
 	<context:annotation-config/>
-	<context:component-scan base-package="controller"/>
+	<context:component-scan base-package="com.fund"/>
+	
+	<mvc:resources location="/WEB-INF/resources/images/" mapping="/images/**" ></mvc:resources>
+
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/pages/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
+	
+
+	
+<bean id="multipartResolver"    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+    <!-- 設定上傳檔案的最大尺寸為1MB -->  
+    <property name="maxUploadSize">  
+        <value>1048576</value>  
+    </property>  
+</bean>
+	
 </beans>

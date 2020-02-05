@@ -16,6 +16,7 @@
   limitations under the License.
 --><!-- The contents of this file will be loaded for each web application --><Context>
 
+<Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" name="connectSQLServerJdbc/OrderService" password="passw0rd" type="javax.sql.DataSource" url="jdbc:sqlserver://localhost:1433;databaseName=JdbcHomeWork" username="sa"/>
     <!-- Default set of monitored resources. If one of these changes, the    -->
     <!-- web application will be reloaded.                                   -->
     <WatchedResource>WEB-INF/web.xml</WatchedResource>

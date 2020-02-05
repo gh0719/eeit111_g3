@@ -11,25 +11,39 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	
-	<context:annotation-config/>
-	<context:component-scan base-package="model"/>
-	
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
-	<bean id="sqlserverJndiDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:comp/env/sqlserverConnector"/>
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.fund" />
+
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+
+	<bean id="sqlserverJndiDataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName"
+			value="java:comp/env/sqlserverConnector" />
 	</bean>
-	
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-		<property name="dataSource" ref="sqlserverJndiDataSource"/>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="sqlserverJndiDataSource" />
 		<property name="configLocation">
 			<value>classpath:hibernate.cfg.xml</value>
 		</property>
 	</bean>
-	
-	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory"/>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 設定上傳檔案的最大尺寸為1MB -->
+		<property name="maxUploadSize">
+			<value>1048576</value>
+		</property>
+	</bean>
+
 </beans>

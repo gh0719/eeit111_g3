@@ -5,10 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>Insert title here</title>
 </head>
 <body>
-<form action="getMember1" method="get" enctype="multipart/form-data">
+
+
 <img  src="${getMemberPic}" style="height: 100px;width: 120px"><br>
 姓名 :${getMemberFname}<br> 
 暱稱 :${getMemberSname}<br> 
@@ -17,7 +21,8 @@
 生日 :${getMemberHb}<br> 
 市內電話 :${getMemberTel}<br> 
 手機號碼 :${getMemberCel}<br> 
-</form>
+
+
 <input type="button" value="修改資料" onclick="location.href='getMember'">  
 <input type="button" value="首頁" onclick="location.href='Home.jsp'">  
 

@@ -233,4 +233,14 @@ public class Member {
 		this.fundMsgs = fundMsgs;
 	}
 
+	@Override
+	public String toString() {
+		return "Member [memberId=" + memberId + ", memberEmail=" + memberEmail + ", memberPwd=" + memberPwd
+				+ ", memberFname=" + memberFname + ", memberSname=" + memberSname + ", memberTwid=" + memberTwid
+				+ ", memberHb=" + memberHb + ", memberGd=" + memberGd + ", memberTel=" + memberTel + ", memberCel="
+				+ memberCel + ", memberPic=" + memberPic + ", memberStatus=" + memberStatus + ", stores=" + stores
+				+ ", orders=" + orders + ", msgs=" + msgs + ", assess=" + assess + ", fundOrders=" + fundOrders
+				+ ", fundMsgs=" + fundMsgs + ", reports=" + reports + "]";
+	}
+
 }

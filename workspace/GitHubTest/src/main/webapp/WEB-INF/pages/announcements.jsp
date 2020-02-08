@@ -27,6 +27,7 @@
 
 <c:forEach var="a11at" items="${allAt}" >
 <form action="getAnnouncementById" method="get" >
+<img alt="" src="" >
 ${a11at.announcementTital} 公告日期${a11at.announcementDate}
 <input type="hidden" value="${a11at.announcementId}" name="aaa">
 <input type="submit" value="查詢">

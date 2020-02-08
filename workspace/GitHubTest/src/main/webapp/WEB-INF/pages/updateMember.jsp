@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-window.location.replace(location.href)
+
 <h4>資料更新</h4>
 <form action="memberUpdate" method="post" enctype="multipart/form-data">
 頭像:<br>

@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import com.fund.model.Member;
 import com.fund.model.OrderDetail;
@@ -38,6 +39,8 @@ public class MemberServiceImpl {
 	public void addMember(Member member) {
 		if (member != null) {
 			member.setMemberStatus("正常");
+			String md5Password = DigestUtils.md5DigestAsHex(member.getMemberPwd().getBytes());
+			member.setMemberPwd(md5Password);
 			memberDaoImpl.addMember(member);
 		}
 	}

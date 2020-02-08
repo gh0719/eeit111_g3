@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<meta http-equiv="refresh" content="3;url=Home.jsp">
+<meta http-equiv="refresh" content="3;url=test123">
 </head>
 <body>
 

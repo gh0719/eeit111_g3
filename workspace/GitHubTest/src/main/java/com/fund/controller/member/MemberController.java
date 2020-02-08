@@ -1,4 +1,4 @@
-package com.fund.model.member.controller;
+package com.fund.controller.member;
 
 import java.io.File;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,7 +80,7 @@ public class MemberController {
 	@RequestMapping(value = "/loginMember", method = RequestMethod.POST)
 	public String loginMember(Member member, Model model, HttpSession httpSession) {
 		String memberEmail = member.getMemberEmail();
-		String pwd = member.getMemberPwd();
+		String pwd = DigestUtils.md5DigestAsHex(member.getMemberPwd().getBytes());
 		if (memberEmail.matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$") && pwd != null) {
 			List<Member> listMember = memberServiceImpl.listFindMemberByEmail(memberEmail);
 			if (listMember!=null) {

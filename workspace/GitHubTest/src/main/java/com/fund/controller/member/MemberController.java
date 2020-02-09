@@ -1,14 +1,10 @@
 package com.fund.controller.member;
 
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FilenameUtils;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,45 +27,35 @@ public class MemberController {
 	/**
 	 * @controller 註冊功能
 	 */
-	@SuppressWarnings("unused")
 	@RequestMapping(value = "registerMember", method = RequestMethod.POST)
 	public String registerMember(Member member, Model model,
-			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request,HttpSession httpSession)
+			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request)
 			throws Exception {
 			if ((member.getMemberEmail().matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$"))
-			 && (member.getMemberPwd() != null)   && (member.getMemberTwid().matches("^[A-Z]\\d{9}$"))
+			 && (member.getMemberPwd().matches( "^(?=^.{6,12}$)((?=.*[0-9])(?=.*[a-z|A-Z]))^.*$"))   && (member.getMemberTwid().matches("^[A-Z]\\d{9}$"))
 			 && (member.getMemberFname() != null) && (member.getMemberSname() != null)
 			 && (member.getMemberGd() != null)    && (member.getMemberHb() != null)
 		     && (member.getMemberCel().matches("^09[0-9]{8}$"))) {
 				List<Member> listMember = memberServiceImpl.listFindMemberByEmail(member.getMemberEmail());		
-				if (listMember==null) {
-					if(!file.getOriginalFilename().isEmpty()) {
-						String fileType = file.getContentType(); // 獲得檔案型別
-						if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {
-							String name = UUID.randomUUID().toString().replaceAll("-", "");// 使用UUID給圖片重新命名，並去掉四個“-”
-					String ext = FilenameUtils.getExtension(file.getOriginalFilename());// 獲取檔案的副檔名
-					String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images");// 設定圖片上傳路徑
-					file.transferTo(new File(filePath + "/" + name + "." + ext));// 以絕對路徑儲存重名命後的圖片
-					member.setMemberPic("images/" + name + "." + ext);// 把圖片儲存路徑儲存到資料庫
-					memberServiceImpl.addMember(member);
-						}else {
-							System.out.println("輸入格式錯誤");
-							return "error";
-						}
-					}else {
-						member.setMemberPic("images/T1213121.jpg");// 把圖片儲存路徑儲存到資料庫
+				if (listMember==null) {				
+					String pic = memberServiceImpl.adddeleteMemberPic(file,request);
+					if(!pic.equals("errorPic")) {
+						member.setMemberPic(pic);
 						memberServiceImpl.addMember(member);
-					}
-					return "save";//註冊成功
-				} else {
-					System.out.println("帳號已註冊");
-					httpSession.setAttribute("name", member);// 將使用者輸入的Member存入Session
-					httpSession.setAttribute("repeat", member.getMemberEmail()+ "已有人使用");// 將輸入MemberEmail存入Session
-					return "redirect:/register.jsp";// 帳號已註冊
+						return "MemberSystem/save";//註冊成功
+					}else {
+							model.addAttribute("errorPicFormat", "輸入圖片格式錯誤  請確認");
+							return "MemberSystem/register";
+					}} else {
+					String newAccount = memberServiceImpl.suggestAccount(member);//產生建議帳號
+					model.addAttribute("errorAccount", "帳號已註冊   以下提供參考" +newAccount);
+					System.out.println("帳號已註冊   以下提供參考"+newAccount);
+					return "MemberSystem/register";// 帳號已註冊
 				}
 			} else {
-				System.out.println("輸入格式錯誤");
-				return "error";
+				System.out.println("資料輸入格式錯誤");
+				model.addAttribute("errorFormat", "資料輸入格式錯誤" );
+				return "MemberSystem/register";
 			}
 		} 
 	
@@ -80,7 +66,7 @@ public class MemberController {
 	@RequestMapping(value = "/loginMember", method = RequestMethod.POST)
 	public String loginMember(Member member, Model model, HttpSession httpSession) {
 		String memberEmail = member.getMemberEmail();
-		String pwd = DigestUtils.md5DigestAsHex(member.getMemberPwd().getBytes());
+		String pwd = DigestUtils.md5DigestAsHex(member.getMemberPwd().getBytes());//md5解密
 		if (memberEmail.matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$") && pwd != null) {
 			List<Member> listMember = memberServiceImpl.listFindMemberByEmail(memberEmail);
 			if (listMember!=null) {
@@ -96,18 +82,18 @@ public class MemberController {
 					httpSession.setAttribute("memberId",memberId);// 將MemberId存入Session
 					httpSession.setAttribute("listMember",listMember.get(0));// 將Member存入Session
 					System.out.println("登入成功 ");
-					return "login";
+					return "home";
 				} else {
 					System.out.println("登入失敗 密碼錯誤 ");
-					return "redirect:/loginSystem.jsp";
+					return "MemberSystem/loginSystem";
 				}
 			} else {
 				System.out.println("登入失敗  無此帳號");
-				return "redirect:/loginSystem.jsp";
+				return "MemberSystem/loginSystem";
 			}
 		} else {
 			System.out.println("登入失敗  格式錯誤");
-			return "redirect:/loginSystem.jsp";
+			return "MemberSystem/loginSystem";
 		}
 	}
 
@@ -116,21 +102,14 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "/getMember", method = RequestMethod.GET)
 	public String getMember(HttpSession httpSession, Model model) {
-		String memberEmail = (String) httpSession.getAttribute("memberEamil");// 取得Session的帳號
-		if (memberEmail != null) {
-			List<Member> users = memberServiceImpl.listFindMemberByEmail(memberEmail);
-			model.addAttribute("getMemberFname", users.get(0).getMemberFname());
-			model.addAttribute("getMemberSname", users.get(0).getMemberSname());
-			model.addAttribute("getMemberTwid", users.get(0).getMemberTwid());
-			model.addAttribute("getMemberGd", users.get(0).getMemberGd());
-			model.addAttribute("getMemberHb", users.get(0).getMemberHb());
-			model.addAttribute("getMemberTel", users.get(0).getMemberTel());
-			model.addAttribute("getMemberCel", users.get(0).getMemberCel());
-			model.addAttribute("getMemberPic", users.get(0).getMemberPic());
-			return "updateMember";
+		Integer memberId = (Integer) httpSession.getAttribute("memberId");// 取得Session的ID
+		if (memberId != null) {
+			Member member = memberServiceImpl.findMember(memberId);//查資料庫會員資料
+			model.addAttribute("getMember",member);
+			return "MemberSystem/updateMember";
 		} else {
 			model.addAttribute("nologin", "請先登入 3秒後跳至首頁");
-			return "noLogin";
+			return "MemberSystem/noLogin";
 		}
 	}
 
@@ -146,31 +125,26 @@ public class MemberController {
 			 && (!member.getMemberHb().isEmpty()) && (member.getMemberCel().matches("^09[0-9]{8}$"))) {
 			String memberEmail = (String) httpSession.getAttribute("memberEamil");//取得session的帳號
 		if (memberEmail != null) {
-			if (!file.getOriginalFilename().isEmpty()) {//檢驗看圖檔是否有上傳 有話存取
+			if (!file.getOriginalFilename().isEmpty()) {//檢驗看圖檔是否有上傳 
 				String fileType = file.getContentType(); // 獲得檔案型別
-				if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {
-				boolean status =  memberServiceImpl.deleteMemberPic(memberEmail, request);//刪除照片
-				System.out.println("照片刪除 = "+status);
-			    String name = UUID.randomUUID().toString().replaceAll("-", "");// 使用UUID給圖片重新命名，並去掉四個“-”
-				String imageName = file.getOriginalFilename();// 獲取圖片名稱
-				String ext = FilenameUtils.getExtension(file.getOriginalFilename());// 獲取檔案的副檔名
-				String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images");// 設定圖片上傳路徑
-				file.transferTo(new File(filePath + "/" + name + "." + ext));// 以絕對路徑儲存重名命後的圖片
-				member.setMemberPic("images/" + name + "." + ext);// 把圖片儲存路徑儲存到資料庫
-				memberServiceImpl.updateMember(member, memberEmail);
+				if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {//查看資料類型
+				memberServiceImpl.deleteMemberPic(memberEmail, request);//刪除原本照片
+				String path = memberServiceImpl.adddeleteMemberPic(file, request);//新增照片
+				member.setMemberPic(path);// 把圖片儲存路徑儲存到資料庫
+				memberServiceImpl.updateMember(member, memberEmail);//進行更新
 				}else {
 					System.out.println("輸入格式錯誤");
-					return "error";
+					return "MemberSystem/error";
 				}
 			} else {
-				memberServiceImpl.updateMember(member, memberEmail);
+				memberServiceImpl.updateMember(member, memberEmail);//沒修改照片話直接更新
 			}
-			return "redirect:/getMember1";//更新完成後 返回  導回會員查詢頁面
+			return "redirect:/getMemberToUpdate";//更新完成後 返回getMember1 方法  導回會員查詢頁面
 		} else {
-			return "noLogin";
+			return "MemberSystem/noLogin";
 		}}else {
 			System.out.println("輸入格式錯誤");
-			return "error";
+			return "MemberSystem/error";
 		}
 		
 	}
@@ -178,30 +152,30 @@ public class MemberController {
 	/**
 	 * @controller 查詢會員資料直接顯示
 	 */
-	@RequestMapping(value = "/getMember1", method = RequestMethod.GET)
-	public String getMember1(HttpSession httpSession, Model model) {
+	@RequestMapping(value = "/getMemberToUpdate", method = RequestMethod.GET)
+	public String getMemberToUpdate(HttpSession httpSession, Model model) {
 		
-		String memberEmail = (String) httpSession.getAttribute("memberEamil");// 取得Session的帳號
-		if (memberEmail != null) {
-			List<Member> listMember = memberServiceImpl.listFindMemberByEmail(memberEmail);
-			httpSession.setAttribute("listMember",listMember.get(0));// 將Member存入Session
-			model.addAttribute("getMemberFname", listMember.get(0).getMemberFname());
-			model.addAttribute("getMemberSname", listMember.get(0).getMemberSname());
-			model.addAttribute("getMemberTwid", listMember.get(0).getMemberTwid());
-			model.addAttribute("getMemberGd", listMember.get(0).getMemberGd());
-			model.addAttribute("getMemberHb", listMember.get(0).getMemberHb());
-			model.addAttribute("getMemberTel", listMember.get(0).getMemberTel());
-			model.addAttribute("getMemberCel", listMember.get(0).getMemberCel());
-			model.addAttribute("getMemberPic", listMember.get(0).getMemberPic());
-			//System.out.println(listMember.get(0));
-			return "mbInformation";
+		Integer memberId = (Integer) httpSession.getAttribute("memberId");// 取得Session的ID
+		if (memberId != null) {
+			Member member = memberServiceImpl.findMember(memberId);
+			model.addAttribute("getMember", member);
+			return "MemberSystem/mbInformation";
 		} else {
 			model.addAttribute("nologin", "請先登入 3秒後跳至首頁");
-			return "noLogin";
+			return "MemberSystem/noLogin";
 		}
 	}
 	
 	
+	@RequestMapping(path="/register")
+	public String register() {
+		return "MemberSystem/register";
+	}
+	
+	@RequestMapping(path="/loginSystem")
+	public String loginSystem() {
+		return "MemberSystem/loginSystem";
+	}
 
 
 }

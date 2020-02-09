@@ -13,18 +13,18 @@
 <body>
 
 
-<img  src="${getMemberPic}" style="height: 100px;width: 120px"><br>
-姓名 :${getMemberFname}<br> 
-暱稱 :${getMemberSname}<br> 
-身分證字號 : ${getMemberTwid}<br> 
-性別 :${getMemberGd}
-生日 :${getMemberHb}<br> 
-市內電話 :${getMemberTel}<br> 
-手機號碼 :${getMemberCel}<br> 
+<img  src="${getMember.memberPic}" style="height: 100px;width: 120px"><br>
+姓名 :${getMember.memberFname}<br> 
+暱稱 :${getMember.memberSname}<br> 
+身分證字號 : ${getMember.memberTwid}<br> 
+性別 :${getMember.memberGd}
+生日 :${getMember.memberHb}<br> 
+市內電話 :${getMember.memberTel}<br> 
+手機號碼 :${getMember.memberCel}<br> 
 
 
 <input type="button" value="修改資料" onclick="location.href='getMember'">  
-<input type="button" value="首頁" onclick="location.href='Home.jsp'">  
+<input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">  
 
 </body>
 </html>

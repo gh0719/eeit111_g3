@@ -20,7 +20,7 @@
 		document.getElementById("div1").innerHTML= count;//將count顯示在div中
 		count -= 1;//執行一次，count減1
 		if(count==-1){//count=0時，跳轉頁面
-			history.go(-1); //window.location.href="index.html";                   
+			history.go(-1); //返回上頁 window.location.href="index.html";                   
 		}
 		setTimeout("countDown()",900);//每秒執行一次,showTime()
 	}

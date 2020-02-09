@@ -62,6 +62,14 @@ public class MemberDaoImpl  {
 	}
 	
 	/**
+	 * @Dao 取得會員資料
+	 */
+	
+	public Member findMember(Integer memberId) {
+		return getSession().get(Member.class, memberId);
+	}
+	
+	/**
 	 * @Dao 取得商店資料
 	 */
 	public List<Store> listFindStoreByMemberId(Integer memberId){

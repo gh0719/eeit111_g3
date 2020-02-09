@@ -1,4 +1,4 @@
-package com.fund.model.manager.controller;
+package com.fund.controller.manger;
 
 import java.io.File;
 import java.io.IOException;

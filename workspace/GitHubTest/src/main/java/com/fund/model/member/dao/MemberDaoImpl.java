@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fund.model.Member;
-import com.fund.model.OrderDetail;
 import com.fund.model.Store;
 
 @Repository
-public class MemberDaoImpl  {
+public class MemberDaoImpl implements IMemberDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -24,9 +23,9 @@ public class MemberDaoImpl  {
 	}
 
 	/**
-	 * @Dao 新增帳號
+	 * @Dao 註冊帳號
 	 */
-
+    @Override
 	public void addMember(Member member) {
 		try {
 			getSession().save(member);
@@ -39,7 +38,7 @@ public class MemberDaoImpl  {
 	/**
 	 * @Dao 更新帳號資料
 	 */
-
+    @Override
 	public void updateMember(Query query) {
 		query.executeUpdate();
 		System.out.println("update 完成");
@@ -49,7 +48,7 @@ public class MemberDaoImpl  {
 	/**
 	 * @Dao 取得會員資料
 	 */
-	
+    @Override
 	public List<Member> listFindMemberByEmail(String memberEmail) {
 			String hqlstr = "From Member WHERE memberEmail=:email";
 			Query query = getSession().createQuery(hqlstr).setParameter("email", memberEmail);
@@ -64,7 +63,7 @@ public class MemberDaoImpl  {
 	/**
 	 * @Dao 取得會員資料
 	 */
-	
+    @Override
 	public Member findMember(Integer memberId) {
 		return getSession().get(Member.class, memberId);
 	}

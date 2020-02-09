@@ -23,7 +23,7 @@
 手機號碼 :${getMember.memberCel}<br> 
 
 
-<input type="button" value="修改資料" onclick="location.href='getMember'">  
+<input type="button" value="修改資料" onclick="location.href='getMemberToUpdate'">  
 <input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">  
 
 </body>

@@ -127,7 +127,7 @@ public class MemberServiceImpl implements IMemberService {
 	 * @return
 	 */
 	@Override
-	public String addMemberPic(MultipartFile file, HttpServletRequest request) {
+	public String adddeleteMemberPic(MultipartFile file, HttpServletRequest request) {
 		if (!file.getOriginalFilename().isEmpty()) {
 			String fileType = file.getContentType(); // 獲得檔案型別
 			if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {

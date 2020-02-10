@@ -33,7 +33,7 @@ public class MemberController {
 	public String registerMember(Member member, Model model,@RequestParam(value = "confirmPwd", required = false)String confirmPwd,
 			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request)
 			throws Exception {
-		    model.addAttribute("inputMember", member);//如果輸入錯誤 原本輸入的值導回 使用者不用重複書寫
+		    model.addAttribute("inputMember", member);//如果輸入錯誤 原本輸入的值導回
 			if ((member.getMemberEmail().matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$"))
 			 && (member.getMemberPwd().matches( "^(?=^.{6,12}$)((?=.*[0-9])(?=.*[a-z|A-Z]))^.*$"))   && (member.getMemberTwid().matches("^[A-Z]\\d{9}$"))
 			 && (member.getMemberFname() != null) && (member.getMemberSname() != null)
@@ -42,7 +42,7 @@ public class MemberController {
 				if(confirmPwd.equals(member.getMemberPwd())){
 					List<Member> listMember = memberServiceImpl.listFindMemberByEmail(member.getMemberEmail());	
 				if (listMember==null) {//如果帳號不存在				
-					String pic = memberServiceImpl.addMemberPic(file,request);//圖片存檔
+					String pic = memberServiceImpl.adddeleteMemberPic(file,request);//圖片存檔
 					if(!pic.equals("errorPic")) {//圖片存取正常
 						member.setMemberPic(pic);//設定圖片路徑
 						memberServiceImpl.addMember(member);//存入資料庫
@@ -89,17 +89,14 @@ public class MemberController {
 					return "home";
 				} else {
 					System.out.println("登入失敗 密碼錯誤 ");
-					model.addAttribute("errorPwd", "帳號或密碼錯誤");
 					return "MemberSystem/loginSystem";
 				}
 			} else {
 				System.out.println("登入失敗  無此帳號");
-				model.addAttribute("errorAccount", "無此帳號");
 				return "MemberSystem/loginSystem";
 			}
 		} else {
 			System.out.println("登入失敗  格式錯誤");
-			model.addAttribute("errorFormat", "帳號格式錯誤");
 			return "MemberSystem/loginSystem";
 		}
 	}
@@ -136,7 +133,7 @@ public class MemberController {
 				String fileType = file.getContentType(); // 獲得檔案型別
 				if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {//查看圖片資料類型
 				memberServiceImpl.deleteMemberPic(memberSession.getMemberId(), request);//刪除原本照片
-				String path = memberServiceImpl.addMemberPic(file, request);//新增照片
+				String path = memberServiceImpl.adddeleteMemberPic(file, request);//新增照片
 				member.setMemberPic(path);// 把圖片儲存路徑儲存到資料庫
 				memberServiceImpl.updateMember(member, memberSession.getMemberId());//進行更新
 				}else {
@@ -172,11 +169,6 @@ public class MemberController {
 			model.addAttribute("nologin", "請先登入 3秒後跳至首頁");
 			return "MemberSystem/noLogin";
 		}
-	}
-	
-	public String findPwd() {
-		
-		return "";
 	}
 	
 

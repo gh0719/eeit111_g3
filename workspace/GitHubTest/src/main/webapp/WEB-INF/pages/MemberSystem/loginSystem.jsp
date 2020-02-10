@@ -32,6 +32,8 @@ PassWord:<input type="password" name="memberPwd" ><br>
     <div class="g-recaptcha" data-sitekey="6Le_YdUUAAAAAD5nxrA1HIK-E6xPCKbSgdNxCdgN"></div>
 	<input type="submit" value="送出" name="submit">
 	<input type="reset" value="清除">
+	<input type="button" value="忘記密碼" onclick="location.href=''">
+	<input type="button" value="查詢帳號" onclick="location.href=''">
 	<input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">
 </form>
 

@@ -19,7 +19,7 @@
 <c:if test="${not empty errorAccount}">
 帳號已註冊 可更改為:
 <c:forEach var="a11at" items="${errorAccount}" >
-<br>${a11at}<br>
+<br><span>${a11at}</span><br>
 </c:forEach>
 </c:if>
 *密碼  (6~12長度 ,包含數字及英文字母):<br>

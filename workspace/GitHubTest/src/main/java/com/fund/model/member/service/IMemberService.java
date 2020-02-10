@@ -23,7 +23,7 @@ public interface IMemberService {
 
 	public List<Store> listFindStoreByMemberId(Integer memberId);//取得商店資料 listByMemberId
 
-	public String adddeleteMemberPic(MultipartFile file, HttpServletRequest request);//存入照片
+	public String addMemberPic(MultipartFile file, HttpServletRequest request);//存入照片
 
 	public boolean deleteMemberPic(Integer memberId, HttpServletRequest request);//刪除照片
 

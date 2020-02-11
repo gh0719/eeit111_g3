@@ -24,7 +24,7 @@ ${sessionScope.get('memberInformation').memberSname}<br>
 <script type="text/javascript">
 function nofind(){
   var img=event.srcElement;
-  img.src="images/T1213121.jpg"; //替換的圖片
+  img.src="images/memberPic/T1213121.jpg"; //替換的圖片
   img.onerror=null; //控制不要一直觸發錯誤
 }
 </script>

@@ -50,8 +50,8 @@ public class StoreServiceImpl {
 	/**
 	 * @Service 查詢StoreName是否存在
 	 */
-	public List<Store> listStore(Store store){
-		return storeSDapImpl.listStore(store);
+	public Store findStoreByName(Store store){
+		return storeSDapImpl.findStoreByName(store);
 	}
 	
 	
@@ -75,24 +75,50 @@ public class StoreServiceImpl {
 			if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {
 				String name = UUID.randomUUID().toString().replaceAll("-", "");// 使用UUID給圖片重新命名，並去掉四個“-”
 				String ext = FilenameUtils.getExtension(file.getOriginalFilename());// 獲取檔案的副檔名
-				String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images");// 設定圖片上傳路徑
+				String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images/storePic");// 設定圖片上傳路徑
 				try {
 					file.transferTo(new File(filePath + "/" + name + "." + ext));// 以絕對路徑儲存重名命後的圖片
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String path = "images/" + name + "." + ext;// 把圖片儲存路徑儲存到資料庫
+				String path = "images/storePic/" + name + "." + ext;// 把圖片儲存路徑儲存到資料庫
 				return path;
 			} else {
 				String errorPic = "errorPic";
 				return errorPic;
 			}
 		} else {// 如果沒有傳圖片 存預設圖片路徑
-			String presetPic = "images/T1213121.jpg";
+			String presetPic = "images/storePic/T1213121.jpg";
 			return presetPic;
 		}
-
 	}
 
+	
+	/**
+	 * @Service 刪除照片
+	 */
+
+	public boolean deleteStorePic(Integer storeId, HttpServletRequest request) {
+		Store store = storeSDapImpl.findStore(storeId);
+		String storePic = store.getStorePic();
+		if (!storePic.equals("/images/storePic/T1213121.jpg")) {
+			String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/");
+			String fileName = filePath + storePic;
+			File file = new File(fileName);
+			if (file.isFile() && file.exists()) {
+				file.delete();// "刪除單個檔案"+name+"成功！"
+				return true;
+			} // "刪除單個檔案"+name+"失敗！"
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public void updateStore(Store store) {
+		Store getStore = storeSDapImpl.findStoreByName(store);
+		
+	}
+	
 
 }

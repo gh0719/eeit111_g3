@@ -20,7 +20,8 @@
 商行負責人電話 :${getstore.storePiTel}<br> 
 商行負責人地址 :${getstore.storePiAddress}<br> 
 
-<input type="button" value="修改資料" onclick="location.href='getMemberToUpdate'">  
+<input type="button" value="修改資料" onclick="location.href='findStoreToUpdate'">  
+<input type="button" value="商城管理" onclick="location.href=''">  
 <input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">  
 
 </body>

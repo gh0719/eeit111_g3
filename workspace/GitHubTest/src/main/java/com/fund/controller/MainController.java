@@ -26,4 +26,12 @@ public class MainController {
 	public String loginSystem() {
 		return "MemberSystem/loginSystem";
 	}
+	
+	/**
+	 * @映射路徑到registerStore
+	 */
+	@RequestMapping(path = "/registerStore")
+	public String registerStore() {
+		return "Store/storeRegister";
+	}
 }

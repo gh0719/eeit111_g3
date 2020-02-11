@@ -17,18 +17,18 @@ public interface IMemberService {
 
 	public void updateMember(Member member, Integer memberId);//更新帳號資料
 
-	public List<Member> listFindMemberByEmail(String memberEmail);//取得會員資料listByEmail
+	public Member findMemberByEmail(String memberEmail);//取得會員資料listByEmail
 
 	public Member findMember(Integer memberId);//取得會員資料 Member
 
-	public List<Store> listFindStoreByMemberId(Integer memberId);//取得商店資料 listByMemberId
+	public Store findStoreByMemberId(Integer memberId);//取得商店資料 listByMemberId
 
-	public String adddeleteMemberPic(MultipartFile file, HttpServletRequest request);//存入照片
+	public String addMemberPic(MultipartFile file, HttpServletRequest request);//存入照片
 
 	public boolean deleteMemberPic(Integer memberId, HttpServletRequest request);//刪除照片
 
 	public List<String> suggestAccount(Member member);//製造建議帳號
 
-	public void addStoreIdSession(Integer memberId, HttpSession httpSession);//將StoreId 存Session
+	public void addStoreSession(Integer memberId, HttpSession httpSession);//將StoreId 存Session
 
 }

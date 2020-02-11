@@ -1,7 +1,6 @@
 package com.fund.model.member.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -60,7 +59,6 @@ public class MemberServiceImpl implements IMemberService {
 	 */
 	@Override
 	public void updateMember(Member member, Integer memberId) {
-
 		if (member.getMemberPic() != null) {
 			String hqlstr = "update Member m set m.memberFname=:fn,m.memberSname=:sn,m.memberTwid=:twid,"
 					+ "m.memberGd=:gd,m.memberHb=:hb,m.memberTel=:tel,m.memberCel=:cel,m.memberPic=:pic where m.memberId=:Id";
@@ -96,9 +94,9 @@ public class MemberServiceImpl implements IMemberService {
 	 * @Service 取得會員資料listByEmail
 	 */
 	@Override
-	public List<Member> listFindMemberByEmail(String memberEmail) {
-		List<Member> listMember = memberDaoImpl.listFindMemberByEmail(memberEmail);
-		return listMember;
+	public Member findMemberByEmail(String memberEmail) {
+		Member getmember = memberDaoImpl.findMemberByEmail(memberEmail);
+		return getmember;
 	}
 
 	/**
@@ -115,9 +113,9 @@ public class MemberServiceImpl implements IMemberService {
 	 * @Service 取得商店資料
 	 */
 	@Override
-	public List<Store> listFindStoreByMemberId(Integer memberId) {
-		List<Store> listStore = memberDaoImpl.listFindStoreByMemberId(memberId);
-		return listStore;
+	public Store findStoreByMemberId(Integer memberId) {
+		Store getStore = memberDaoImpl.findStoreByMemberId(memberId);
+		return getStore;
 	}
 
 	/**
@@ -127,7 +125,7 @@ public class MemberServiceImpl implements IMemberService {
 	 * @return
 	 */
 	@Override
-	public String adddeleteMemberPic(MultipartFile file, HttpServletRequest request) {
+	public String addMemberPic(MultipartFile file, HttpServletRequest request) {
 		if (!file.getOriginalFilename().isEmpty()) {
 			String fileType = file.getContentType(); // 獲得檔案型別
 			if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {
@@ -184,7 +182,7 @@ public class MemberServiceImpl implements IMemberService {
 			String accountBack = member.getMemberEmail().substring(member.getMemberEmail().indexOf("@"));// 取後
 			String newAccount = accountFront + random + accountBack;// 產生建議帳號
 			while (true) {
-				if (memberDaoImpl.listFindMemberByEmail(newAccount) == null) {// 如果帳號不存在
+				if (memberDaoImpl.findMemberByEmail(newAccount) == null) {// 如果帳號不存在
 					listNewAccount.add(newAccount);
 					break;
 				}
@@ -194,18 +192,17 @@ public class MemberServiceImpl implements IMemberService {
 	}
 
 	/**
-	 * @Server 將StoreId 存Session
+	 * @Server 將Store 存Session
 	 * @param memberId
 	 * @param httpSession
 	 */
 	@Override
-	public void addStoreIdSession(Integer memberId, HttpSession httpSession) {
-		List<Store> listStore = memberDaoImpl.listFindStoreByMemberId(memberId);
-		if (listStore != null) {
-			int storeId = listStore.get(0).getStoreId();
-			httpSession.setAttribute("storeId", storeId);// 將storeId 存入Session
+	public void addStoreSession(Integer memberId, HttpSession httpSession) {
+		Store getStore = memberDaoImpl.findStoreByMemberId(memberId);
+		if (getStore != null) {
+			httpSession.setAttribute("store", getStore);// 將storeId 存入Session
 		}else {
-			httpSession.removeAttribute("storeId");
+			httpSession.removeAttribute("store");
 		}	
 	}
 	

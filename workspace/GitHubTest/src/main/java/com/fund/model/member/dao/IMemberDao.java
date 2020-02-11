@@ -13,11 +13,11 @@ public interface IMemberDao {
 
 	public void updateMember(Query query);//更新帳號資料
 	
-	public List<Member> listFindMemberByEmail(String memberEmail);//取得會員資料list
+	public Member findMemberByEmail(String memberEmail);//取得會員資料
 	
 	public Member findMember(Integer memberId);//取得會員資料Member
 	
-	public List<Store> listFindStoreByMemberId(Integer memberId);//取得商店資料list
+	public Store findStoreByMemberId(Integer memberId);//取得商店資料list
 	
 	
 	

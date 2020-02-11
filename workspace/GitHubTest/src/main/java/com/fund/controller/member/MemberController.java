@@ -12,11 +12,9 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fund.model.Member;
-import com.fund.model.Store;
 import com.fund.model.member.service.MemberServiceImpl;
 
 @Controller
@@ -41,9 +39,9 @@ public class MemberController {
 			 && (member.getMemberGd() != null)    && (member.getMemberHb() != null)
 		     && (member.getMemberCel().matches("^09[0-9]{8}$"))) {
 				if(confirmPwd.equals(member.getMemberPwd())){
-					List<Member> listMember = memberServiceImpl.listFindMemberByEmail(member.getMemberEmail());	
-				if (listMember==null) {//如果帳號不存在				
-					String pic = memberServiceImpl.adddeleteMemberPic(file,request);//圖片存檔
+					Member getMember = memberServiceImpl.findMemberByEmail(member.getMemberEmail());	
+				if (getMember==null) {//如果帳號不存在				
+					String pic = memberServiceImpl.addMemberPic(file,request);//圖片存檔
 					if(!pic.equals("errorPic")) {//圖片存取正常
 						member.setMemberPic(pic);//設定圖片路徑
 						memberServiceImpl.addMember(member);//存入資料庫
@@ -77,26 +75,29 @@ public class MemberController {
 		String memberEmail = member.getMemberEmail();
 		String pwd = DigestUtils.md5DigestAsHex(member.getMemberPwd().getBytes());// md5解密
 		if (memberEmail.matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$") && !pwd.isEmpty()) {
-			List<Member> listMember = memberServiceImpl.listFindMemberByEmail(memberEmail);
-			if (listMember != null) {
-				String rpwd = listMember.get(0).getMemberPwd();
+			Member getmember = memberServiceImpl.findMemberByEmail(memberEmail);
+			if (getmember != null) {
+				String rpwd = getmember.getMemberPwd();
 				if (pwd.equals(rpwd)) {
-					int memberId = listMember.get(0).getMemberId();
+					int memberId = getmember.getMemberId();
 					Member memberInformation = memberServiceImpl.findMember(memberId);
 					httpSession.setAttribute("memberInformation", memberInformation);// memberInformation 存入Session
-					memberServiceImpl.addStoreIdSession(memberId, httpSession);// StoreId 存入Session
+					memberServiceImpl.addStoreSession(memberId, httpSession);// StoreId 存入Session
 					System.out.println("登入成功 ");
 					return "home";
 				} else {
 					System.out.println("登入失敗 密碼錯誤 ");
+					model.addAttribute("errorPwd", "帳號或密碼錯誤");
 					return "MemberSystem/loginSystem";
 				}
 			} else {
 				System.out.println("登入失敗  無此帳號");
+				model.addAttribute("errorAccount", "帳號或密碼錯誤");
 				return "MemberSystem/loginSystem";
 			}
 		} else {
 			System.out.println("登入失敗  格式錯誤");
+			model.addAttribute("errorFormat", "輸入格式錯誤");
 			return "MemberSystem/loginSystem";
 		}
 	}
@@ -133,8 +134,7 @@ public class MemberController {
 				String fileType = file.getContentType(); // 獲得檔案型別
 				if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {//查看圖片資料類型
 				memberServiceImpl.deleteMemberPic(memberSession.getMemberId(), request);//刪除原本照片
-				String path = memberServiceImpl.adddeleteMemberPic(file, request);//新增照片
-				System.out.println(path);
+				String path = memberServiceImpl.addMemberPic(file, request);//新增照片
 				member.setMemberPic(path);// 把圖片儲存路徑儲存到資料庫
 				memberServiceImpl.updateMember(member, memberSession.getMemberId());//進行更新
 				}else {
@@ -163,7 +163,7 @@ public class MemberController {
 		if (memberSession != null) {
 			Member member = memberServiceImpl.findMember(memberSession.getMemberId());
 			httpSession.setAttribute("memberInformation", member);// 將更改後memberInformation Session放入
-			memberServiceImpl.addStoreIdSession(member.getMemberId(), httpSession);// StoreId 存入Session
+			memberServiceImpl.addStoreSession(member.getMemberId(), httpSession);// StoreId 存入Session
 			model.addAttribute("getMember", member);
 			return "MemberSystem/mbInformation";
 		} else {

@@ -27,9 +27,12 @@ $(document).ready(function(){
 </script>
 
 <form action="loginMember" method="post" name="subscribeform">
-User E-mail:<input type="text" name="memberEmail"><br>
-PassWord:<input type="password" name="memberPwd" ><br>
-    <div class="g-recaptcha" data-sitekey="6Le_YdUUAAAAAD5nxrA1HIK-E6xPCKbSgdNxCdgN"></div>
+User E-mail:<br>
+<input type="text" name="memberEmail">${errorPwd} ${errorAccount} ${errorFormat}<br>
+PassWord:<br>
+<input type="password" name="memberPwd" ><br>
+<div class="g-recaptcha" data-sitekey="6Le_YdUUAAAAAD5nxrA1HIK-E6xPCKbSgdNxCdgN"></div>
+
 	<input type="submit" value="送出" name="submit">
 	<input type="reset" value="清除">
 	<input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">

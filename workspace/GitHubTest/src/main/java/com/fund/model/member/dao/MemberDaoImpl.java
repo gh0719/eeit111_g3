@@ -49,12 +49,13 @@ public class MemberDaoImpl implements IMemberDao {
 	 * @Dao 取得會員資料
 	 */
     @Override
-	public List<Member> listFindMemberByEmail(String memberEmail) {
+	public Member findMemberByEmail(String memberEmail) {
 			String hqlstr = "From Member WHERE memberEmail=:email";
 			Query query = getSession().createQuery(hqlstr).setParameter("email", memberEmail);
 			List<Member> listMember = query.list();
 			if(listMember.size()!=0) {
-				return listMember;
+				Member getmember = listMember.get(0);
+				return getmember;
 			}else {
 				return null;
 			}
@@ -71,12 +72,13 @@ public class MemberDaoImpl implements IMemberDao {
 	/**
 	 * @Dao 取得商店資料
 	 */
-	public List<Store> listFindStoreByMemberId(Integer memberId){
+	public Store findStoreByMemberId(Integer memberId){
 		String hqlstr = "From Store WHERE member_Id=:id";
 		Query quert = getSession().createQuery(hqlstr).setParameter("id", memberId);
 		List<Store> listStore = quert.list();
 		if(listStore.size()!=0) {
-			return listStore;
+			Store getStore = listStore.get(0);
+			return getStore;
 		}else {
 			return null;
 		}		

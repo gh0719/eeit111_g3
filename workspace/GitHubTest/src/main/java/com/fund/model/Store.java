@@ -30,7 +30,7 @@ public class Store {
 	private String storePf;
 	
 	@Column(name = "store_tel")
-	private int storeTel;
+	private String storeTel;
 	
 	@Column(name = "store_pic")
 	private String storePic;
@@ -39,10 +39,10 @@ public class Store {
 	private String storeAddress;
 	
 	@Column(name = "store_number")
-	private int storeNumber;
+	private String storeNumber;
 	
 	@Column(name = "store_account")
-	private int storeAccount;
+	private String storeAccount;
 	
 	@Column(name = "store_pi_name")
 	private String storePiName;
@@ -51,7 +51,7 @@ public class Store {
 	private String storePiTwid;
 	
 	@Column(name = "store_pi_tel")
-	private int storePiTel;
+	private String storePiTel;
 	
 	@Column(name = "store_pi_address")
 	private String storePiAddress;
@@ -111,15 +111,13 @@ public class Store {
 		this.storePf = storePf;
 	}
 
-	public int getStoreTel() {
+	public String getStoreTel() {
 		return storeTel;
 	}
 
-	public void setStoreTel(int storeTel) {
+	public void setStoreTel(String storeTel) {
 		this.storeTel = storeTel;
 	}
-
-
 
 	public String getStorePic() {
 		return storePic;
@@ -137,19 +135,19 @@ public class Store {
 		this.storeAddress = storeAddress;
 	}
 
-	public int getStoreNumber() {
+	public String getStoreNumber() {
 		return storeNumber;
 	}
 
-	public void setStoreNumber(int storeNumber) {
+	public void setStoreNumber(String storeNumber) {
 		this.storeNumber = storeNumber;
 	}
 
-	public int getStoreAccount() {
+	public String getStoreAccount() {
 		return storeAccount;
 	}
 
-	public void setStoreAccount(int storeAccount) {
+	public void setStoreAccount(String storeAccount) {
 		this.storeAccount = storeAccount;
 	}
 
@@ -169,11 +167,11 @@ public class Store {
 		this.storePiTwid = storePiTwid;
 	}
 
-	public int getStorePiTel() {
+	public String getStorePiTel() {
 		return storePiTel;
 	}
 
-	public void setStorePiTel(int storePiTel) {
+	public void setStorePiTel(String storePiTel) {
 		this.storePiTel = storePiTel;
 	}
 
@@ -264,5 +262,7 @@ public class Store {
 	public void setFundReplys(Set<FundReply> fundReplys) {
 		this.fundReplys = fundReplys;
 	}
+
+	
 
 }

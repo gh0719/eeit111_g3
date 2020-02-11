@@ -133,20 +133,20 @@ public class MemberServiceImpl implements IMemberService {
 			if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {
 				String name = UUID.randomUUID().toString().replaceAll("-", "");// 使用UUID給圖片重新命名，並去掉四個“-”
 				String ext = FilenameUtils.getExtension(file.getOriginalFilename());// 獲取檔案的副檔名
-				String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images");// 設定圖片上傳路徑
+				String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images/memberPic");// 設定圖片上傳路徑
 				try {
 					file.transferTo(new File(filePath + "/" + name + "." + ext));// 以絕對路徑儲存重名命後的圖片
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				String path = "images/" + name + "." + ext;// 把圖片儲存路徑儲存到資料庫
+				String path = "images/memberPic/" + name + "." + ext;// 把圖片儲存路徑儲存到資料庫
 				return path;
 			} else {
 				String errorPic = "errorPic";
 				return errorPic;
 			}
 		} else {// 如果沒有傳圖片 存預設圖片路徑
-			String presetPic = "images/T1213121.jpg";
+			String presetPic = "images/memberPic/T1213121.jpg";
 			return presetPic;
 		}
 
@@ -159,7 +159,7 @@ public class MemberServiceImpl implements IMemberService {
 	public boolean deleteMemberPic(Integer memberId, HttpServletRequest request) {
 		Member member = memberDaoImpl.findMember(memberId);
 		String memberpic = member.getMemberPic();
-		if (!memberpic.equals("images/T1213121.jpg")) {
+		if (!memberpic.equals("/images/memberPic/T1213121.jpg")) {
 			String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/");
 			String fileName = filePath + memberpic;
 			File file = new File(fileName);
@@ -204,7 +204,10 @@ public class MemberServiceImpl implements IMemberService {
 		if (listStore != null) {
 			int storeId = listStore.get(0).getStoreId();
 			httpSession.setAttribute("storeId", storeId);// 將storeId 存入Session
-		}
+		}else {
+			httpSession.removeAttribute("storeId");
+		}	
 	}
+	
 
 }

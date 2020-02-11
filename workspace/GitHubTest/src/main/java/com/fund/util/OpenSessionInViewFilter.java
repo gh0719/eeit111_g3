@@ -1,4 +1,4 @@
-package util;
+package com.fund.util;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-public class ApplicationContextFilter implements Filter{
+public class OpenSessionInViewFilter implements Filter{
 	
 	private SessionFactory sessionFactory ;
 	private WebApplicationContext context ;
@@ -22,7 +22,7 @@ public class ApplicationContextFilter implements Filter{
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		context = WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
-		sessionFactory = (SessionFactory) context.getBean(filterConfig.getInitParameter("sessionFactoryBeanName")) ;
+		sessionFactory = (SessionFactory) context.getBean("sessionFactory") ;
 	}
 
 	@Override

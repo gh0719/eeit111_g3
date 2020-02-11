@@ -34,6 +34,7 @@ public class MemberController {
 			@RequestParam(value = "confirmPwd", required = false) String confirmPwd,
 			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request)
 			throws Exception {
+<<<<<<< HEAD
 		model.addAttribute("inputMember", member);// 如果輸入錯誤 原本輸入的值導回 使用者不用重複書寫
 		if ((member.getMemberEmail().matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$"))
 				&& (member.getMemberPwd().matches("^(?=^.{6,12}$)((?=.*[0-9])(?=.*[a-z|A-Z]))^.*$"))
@@ -54,6 +55,27 @@ public class MemberController {
 					}
 				} else {
 					List<String> newAccount = memberServiceImpl.suggestAccount(member);// 產生建議帳號
+=======
+		    model.addAttribute("inputMember", member);//如果輸入錯誤 原本輸入的值導回
+			if ((member.getMemberEmail().matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$"))
+			 && (member.getMemberPwd().matches( "^(?=^.{6,12}$)((?=.*[0-9])(?=.*[a-z|A-Z]))^.*$"))   && (member.getMemberTwid().matches("^[A-Z]\\d{9}$"))
+			 && (member.getMemberFname() != null) && (member.getMemberSname() != null)
+			 && (member.getMemberGd() != null)    && (member.getMemberHb() != null)
+		     && (member.getMemberCel().matches("^09[0-9]{8}$"))) {
+				if(confirmPwd.equals(member.getMemberPwd())){
+					List<Member> listMember = memberServiceImpl.listFindMemberByEmail(member.getMemberEmail());	
+				if (listMember==null) {//如果帳號不存在				
+					String pic = memberServiceImpl.adddeleteMemberPic(file,request);//圖片存檔
+					if(!pic.equals("errorPic")) {//圖片存取正常
+						member.setMemberPic(pic);//設定圖片路徑
+						memberServiceImpl.addMember(member);//存入資料庫
+						return "MemberSystem/save";//註冊成功
+					}else {
+							model.addAttribute("errorPicFormat", "輸入圖片格式錯誤  請確認");
+							return "MemberSystem/register";
+					}} else {
+					List<String> newAccount = memberServiceImpl.suggestAccount(member);//產生建議帳號
+>>>>>>> 7daebcfe74a91c15df7bfb8f11d4d95973bd5e76
 					model.addAttribute("errorAccount", newAccount);
 					System.out.println("帳號已註冊   以下提供參考" + newAccount);
 					return "MemberSystem/register";// 帳號已註冊
@@ -90,17 +112,14 @@ public class MemberController {
 					return "home";
 				} else {
 					System.out.println("登入失敗 密碼錯誤 ");
-					model.addAttribute("errorPwd", "帳號或密碼錯誤");
 					return "MemberSystem/loginSystem";
 				}
 			} else {
 				System.out.println("登入失敗  無此帳號");
-				model.addAttribute("errorAccount", "無此帳號");
 				return "MemberSystem/loginSystem";
 			}
 		} else {
 			System.out.println("登入失敗  格式錯誤");
-			model.addAttribute("errorFormat", "帳號格式錯誤");
 			return "MemberSystem/loginSystem";
 		}
 	}
@@ -132,6 +151,7 @@ public class MemberController {
 				&& (!member.getMemberSname().isEmpty()) && (!member.getMemberGd().isEmpty())
 				&& (!member.getMemberHb().isEmpty()) && (member.getMemberCel().matches("^09[0-9]{8}$"))) {
 			Member memberSession = (Member) httpSession.getAttribute("memberInformation");// 取得Session的Member
+<<<<<<< HEAD
 			if (memberSession != null) {
 				if (!file.getOriginalFilename().isEmpty()) {// 檢驗看圖檔是否有上傳
 					String fileType = file.getContentType(); // 獲得檔案型別
@@ -146,6 +166,19 @@ public class MemberController {
 					}
 				} else {
 					memberServiceImpl.updateMember(member, memberSession.getMemberId());// 沒修改照片話直接更新
+=======
+		if (memberSession != null) {
+			if (!file.getOriginalFilename().isEmpty()) {//檢驗看圖檔是否有上傳 
+				String fileType = file.getContentType(); // 獲得檔案型別
+				if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {//查看圖片資料類型
+				memberServiceImpl.deleteMemberPic(memberSession.getMemberId(), request);//刪除原本照片
+				String path = memberServiceImpl.adddeleteMemberPic(file, request);//新增照片
+				member.setMemberPic(path);// 把圖片儲存路徑儲存到資料庫
+				memberServiceImpl.updateMember(member, memberSession.getMemberId());//進行更新
+				}else {
+					System.out.println("輸入格式錯誤");
+					return "MemberSystem/error";
+>>>>>>> 7daebcfe74a91c15df7bfb8f11d4d95973bd5e76
 				}
 				return "redirect:/getMember";// 更新完成後 返回getMember 方法 導回會員查詢頁面
 			} else {
@@ -175,6 +208,10 @@ public class MemberController {
 			return "MemberSystem/noLogin";
 		}
 	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 7daebcfe74a91c15df7bfb8f11d4d95973bd5e76
 
 
 

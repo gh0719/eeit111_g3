@@ -19,7 +19,7 @@ public interface IMemberService {
 
 	public Member findMemberByEmail(String memberEmail);//取得會員資料listByEmail
 
-	public Member findMember(Integer memberId);//取得會員資料 Member
+	public Member findMemberByMemberId(Integer memberId);//取得會員資料 Member
 
 	public Store findStoreByMemberId(Integer memberId);//取得商店資料 listByMemberId
 
@@ -29,6 +29,6 @@ public interface IMemberService {
 
 	public List<String> suggestAccount(Member member);//製造建議帳號
 
-	public void addStoreSession(Integer memberId, HttpSession httpSession);//將StoreId 存Session
+	public void addStoreSession(Member getMember, HttpSession httpSession);//將StoreId 存Session
 
 }

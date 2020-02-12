@@ -23,16 +23,8 @@
 手機號碼 :${getMember.memberCel}<br> 
 
 <input type="button" value="訂單資料查詢" onclick="location.href=''">  
-<input type="button" value="修改資料" onclick="location.href='getMemberToUpdate'">  
 
-
-<c:if test="${not empty sessionScope.storeId}"><!-- 如果不為空 才顯示 -->
-<input type="button" value="查詢商家資料" onclick="location.href='findStore'">
-</c:if>
-
-<c:if test="${empty sessionScope.storeId}"><!-- 如果不為空 才顯示 -->
-<input type="button" value="註冊商家" onclick="location.href='registerStore'">
-</c:if>
+<input type="button" value="修改資料" onclick="location.href='findMemberToUpdate'">  
 
 <input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">  
 

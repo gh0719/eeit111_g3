@@ -105,8 +105,8 @@ public class MemberServiceImpl implements IMemberService {
 	 * @return
 	 */
 	@Override
-	public Member findMember(Integer memberId) {
-		return memberDaoImpl.findMember(memberId);
+	public Member findMemberByMemberId(Integer memberId) {
+		return memberDaoImpl.findMemberByMemberId(memberId);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class MemberServiceImpl implements IMemberService {
 		if (!file.getOriginalFilename().isEmpty()) {
 			String fileType = file.getContentType(); // 獲得檔案型別
 			if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {
-				String name = UUID.randomUUID().toString().replaceAll("-", "");// 使用UUID給圖片重新命名，並去掉四個“-”
+				String name = UUID.randomUUID().toString().replaceAll("-", "");// 使用UUID給圖片重新命名，並去掉“-”
 				String ext = FilenameUtils.getExtension(file.getOriginalFilename());// 獲取檔案的副檔名
 				String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/images/memberPic");// 設定圖片上傳路徑
 				try {
@@ -155,9 +155,9 @@ public class MemberServiceImpl implements IMemberService {
 	 */
 	@Override
 	public boolean deleteMemberPic(Integer memberId, HttpServletRequest request) {
-		Member member = memberDaoImpl.findMember(memberId);
+		Member member = memberDaoImpl.findMemberByMemberId(memberId);
 		String memberpic = member.getMemberPic();
-		if (!memberpic.equals("/images/memberPic/T1213121.jpg")) {
+		if (!memberpic.equals("images/memberPic/T1213121.jpg")) {
 			String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/");
 			String fileName = filePath + memberpic;
 			File file = new File(fileName);
@@ -197,12 +197,12 @@ public class MemberServiceImpl implements IMemberService {
 	 * @param httpSession
 	 */
 	@Override
-	public void addStoreSession(Integer memberId, HttpSession httpSession) {
-		Store getStore = memberDaoImpl.findStoreByMemberId(memberId);
+	public void addStoreSession(Member getMember, HttpSession httpSession) {
+		Store getStore = memberDaoImpl.findStoreByMemberId(getMember.getMemberId());
 		if (getStore != null) {
-			httpSession.setAttribute("store", getStore);// 將storeId 存入Session
+			httpSession.setAttribute("storeSession", getStore);// 將storeId 存入Session
 		}else {
-			httpSession.removeAttribute("store");
+			httpSession.removeAttribute("storeSession");
 		}	
 	}
 	

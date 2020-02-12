@@ -34,10 +34,10 @@ public class StoreDaoImpl {
 	}
 	
 	/**
-	 *@Dao 商家名稱是否重複
+	 *@Dao 查詢店家 用StoreName
 	 */
 
-	public Store findStoreByName(Store store){
+	public Store findStoreByStoreName(Store store){
 		String hqlstr = "From Store WHERE storeName=:Name";
 		Query quert = getSession().createQuery(hqlstr).setParameter("Name", store.getStoreName());
 		List<Store> listStore= quert.list();
@@ -62,7 +62,10 @@ public class StoreDaoImpl {
 	 *@Dao 更改商家資料
 	 */
 	public void updateStore(Store store) {
-		getSession().update(store);
+		if( findStore(store.getStoreId()) != null ) {
+		    getSession().clear();
+			getSession().update(store);
+		}
 	}
 
 }

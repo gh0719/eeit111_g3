@@ -15,7 +15,7 @@ public interface IMemberDao {
 	
 	public Member findMemberByEmail(String memberEmail);//取得會員資料
 	
-	public Member findMember(Integer memberId);//取得會員資料Member
+	public Member findMemberByMemberId(Integer memberId);//取得會員資料Member
 	
 	public Store findStoreByMemberId(Integer memberId);//取得商店資料list
 	

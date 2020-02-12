@@ -28,9 +28,9 @@ $(document).ready(function(){
 
 <form action="loginMember" method="post" name="subscribeform">
 User E-mail:<br>
-<input type="text" name="memberEmail">${errorPwd} ${errorAccount} ${errorFormat}<br>
+<input type="text" name="memberEmail">${errorEmail}${errorAccount}<br>
 PassWord:<br>
-<input type="password" name="memberPwd" ><br>
+<input type="password" name="memberPwd" >${errorPwd}${errorNoPwd}<br>
 <div class="g-recaptcha" data-sitekey="6Le_YdUUAAAAAD5nxrA1HIK-E6xPCKbSgdNxCdgN"></div>
 
 	<input type="submit" value="送出" name="submit">

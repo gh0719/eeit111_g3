@@ -57,7 +57,7 @@ public class OrderDetail {
 	private Order order;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "ordersDetail", cascade = CascadeType.ALL)
-	private Set<Return> returns = new HashSet<Return>();
+	private Set<ProductReturn> returns = new HashSet<ProductReturn>();
 
 	public int getOrderDetailId() {
 		return orderDetailId;
@@ -147,11 +147,11 @@ public class OrderDetail {
 		this.order = order;
 	}
 
-	public Set<Return> getReturns() {
+	public Set<ProductReturn> getReturns() {
 		return returns;
 	}
 
-	public void setReturns(Set<Return> returns) {
+	public void setReturns(Set<ProductReturn> returns) {
 		this.returns = returns;
 	}
 

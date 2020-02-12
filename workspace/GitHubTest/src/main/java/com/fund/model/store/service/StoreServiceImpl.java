@@ -34,24 +34,28 @@ public class StoreServiceImpl {
 	
 
 	/**
+	 * @return 
 	 * @Service 註冊商家時 設定商家狀態
 	 */
 
-	public void addStore(Store store,HttpSession httpSession) {
-		Member memberSession = (Member) httpSession.getAttribute("memberInformation");// 取得Session的Member
-		Integer memberId = memberSession.getMemberId();
-		if (store != null) {
-			store.setStoreStatus("正常");
-			store.setMember(memberSession);
-			storeSDapImpl.addStore(store);
-		}
+	public String addStore(Store store,HttpSession httpSession) {
+			Member memberSession = (Member) httpSession.getAttribute("memberSession");// 取得Session的Member
+			if (store != null  &&memberSession != null) {//如果有輸入資料 且 memberSession 存在
+				store.setStoreStatus("正常"); //狀態改為正常
+				store.setMember(memberSession);//設定Store裡的Member
+				storeSDapImpl.addStore(store);
+				return null;
+			} else {
+				return "error"; //途中如果Session遺失 返回"error"
+			}
+
 	}
 	
 	/**
-	 * @Service 查詢StoreName是否存在
+	 * @Service 查詢Store
 	 */
-	public Store findStoreByName(Store store){
-		return storeSDapImpl.findStoreByName(store);
+	public Store findStoreByStoreName(Store store){
+		return storeSDapImpl.findStoreByStoreName(store);
 	}
 	
 	
@@ -87,8 +91,8 @@ public class StoreServiceImpl {
 				String errorPic = "errorPic";
 				return errorPic;
 			}
-		} else {// 如果沒有傳圖片 存預設圖片路徑
-			String presetPic = "images/storePic/T1213121.jpg";
+		} else {
+			String presetPic = "images/storePic/T1213121.jpg";// 如果沒有傳圖片 存預設圖片路徑
 			return presetPic;
 		}
 	}
@@ -101,24 +105,25 @@ public class StoreServiceImpl {
 	public boolean deleteStorePic(Integer storeId, HttpServletRequest request) {
 		Store store = storeSDapImpl.findStore(storeId);
 		String storePic = store.getStorePic();
-		if (!storePic.equals("/images/storePic/T1213121.jpg")) {
-			String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/");
-			String fileName = filePath + storePic;
+		if (!storePic.equals("images/storePic/T1213121.jpg")) {//如果圖片名不是預設照片
+			String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/resources/");//找出圖片路徑
+			String fileName = filePath + storePic; //設定路徑位置
 			File file = new File(fileName);
-			if (file.isFile() && file.exists()) {
-				file.delete();// "刪除單個檔案"+name+"成功！"
+			if (file.isFile() && file.exists()) {//如果檔案存在
+				file.delete();// 刪除單個檔案
 				return true;
-			} // "刪除單個檔案"+name+"失敗！"
-			return false;
+			} 
+			return false;// 刪除失敗
 		}
 		return true;
 	}
 	
-	
-	public void updateStore(Store store) {
-		Store getStore = storeSDapImpl.findStoreByName(store);
-		
+	/**
+	 * @Service 更改商家資料
+	 */
+	public void updateStore(Store store,HttpSession httpSession) {
+		Member memberSession = (Member) httpSession.getAttribute("memberSession");// 取得Session的Member
+		store.setMember(memberSession);//將Session的Member 設定給Session
+		storeSDapImpl.updateStore(store);
 	}
-	
-
 }

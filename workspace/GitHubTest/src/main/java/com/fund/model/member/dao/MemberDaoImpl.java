@@ -65,7 +65,7 @@ public class MemberDaoImpl implements IMemberDao {
 	 * @Dao 取得會員資料
 	 */
     @Override
-	public Member findMember(Integer memberId) {
+	public Member findMemberByMemberId(Integer memberId) {
 		return getSession().get(Member.class, memberId);
 	}
 	

@@ -16,7 +16,7 @@
 <p>* 為必填</p>
 <form action="addStore" method="post" enctype="multipart/form-data">
 *商家名稱:<br>
-<input type="text" name="storeName" value="${storeInput.storeName}">${errorName}${errorRepeat}<br>
+<input type="text" name="storeName" value="${storeInput.storeName}">${errorName} ${errorRepeat}<br>
 *商家簡介:<br>
 <input type="text" name="storePf" value="${storeInput.storePf}">${errorPf}<br>
 *商家電話 :<br>

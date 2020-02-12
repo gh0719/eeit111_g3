@@ -11,15 +11,22 @@
 <body>
 <h1>首頁</h1>
 
-<c:if test="${not empty sessionScope.get('memberInformation').memberPic}"><!-- 如果不為空 才顯示 -->
-<img onerror="nofind()" src="${sessionScope.get('memberInformation').memberPic}" style="height: 50px;width: 50px;border-radius:50%">
-${sessionScope.get('memberInformation').memberSname}<br>
+<c:if test="${not empty sessionScope.get('memberSession').memberPic}"><!-- 如果不為空 才顯示 -->
+<img onerror="nofind()" src="${sessionScope.get('memberSession').memberPic}" style="height: 50px;width: 50px;border-radius:50%">
+${sessionScope.get('memberSession').memberSname}<br>
 </c:if>
 
+<input type="button" value="註冊" onclick="location.href='register'">
+<input type="button" value="登入" onclick="location.href='loginSystem'">
+<input type="button" value="會員專區" onclick="location.href='findMember'">
 
-<a href="<c:url value="register"/>">註冊</a>
-<a href="<c:url value="loginSystem"/>">登入</a>
-<a href="getMember">會員專區</a>
+<c:if test="${not empty sessionScope.storeSession}"><!-- 如果不為空 才顯示 -->
+<input type="button" value="查詢商家資料" onclick="location.href='findStore'">
+</c:if>
+
+<c:if test="${empty sessionScope.storeSession}"><!-- 如果不為空 才顯示 -->
+<input type="button" value="註冊商家" onclick="location.href='registerStore'">
+</c:if>
 
 <script type="text/javascript">
 function nofind(){

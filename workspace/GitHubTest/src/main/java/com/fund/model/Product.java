@@ -49,7 +49,7 @@ public class Product {
 	private Set<OrderDetail> ordersDetails = new HashSet<OrderDetail>();
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
-	private Set<Return> returns = new HashSet<Return>();
+	private Set<ProductReturn> returns = new HashSet<ProductReturn>();
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "product", cascade = CascadeType.ALL)
 	private Set<Msg> msgs = new HashSet<Msg>();
@@ -138,11 +138,11 @@ public class Product {
 		this.ordersDetails = ordersDetails;
 	}
 
-	public Set<Return> getReturns() {
+	public Set<ProductReturn> getReturns() {
 		return returns;
 	}
 
-	public void setReturns(Set<Return> returns) {
+	public void setReturns(Set<ProductReturn> returns) {
 		this.returns = returns;
 	}
 

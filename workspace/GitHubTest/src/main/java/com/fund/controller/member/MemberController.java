@@ -150,34 +150,51 @@ public class MemberController {
 	public String memberUpdate(HttpSession httpSession, Member member, Model model,
 			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request)
 			throws Exception {
-		if ((member.getMemberTwid().matches("^[A-Z]\\d{9}$")) && (!member.getMemberFname().isEmpty())
-				&& (!member.getMemberSname().isEmpty()) && (!member.getMemberGd().isEmpty())
-				&& (!member.getMemberHb().isEmpty()) && (member.getMemberCel().matches("^09[0-9]{8}$"))) {
-			Member memberSession = (Member) httpSession.getAttribute("memberSession");// 取得Session的Member
-			if (memberSession != null) {
-				if (!file.getOriginalFilename().isEmpty()) {// 檢驗看圖檔是否有上傳
-					String fileType = file.getContentType(); // 獲得檔案型別
-					if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {// 查看圖片資料類型
-						memberServiceImpl.deleteMemberPic(memberSession.getMemberId(), request);// 刪除原本照片
-						String path = memberServiceImpl.addMemberPic(file, request);// 新增照片
-						member.setMemberPic(path);// 把圖片儲存路徑儲存到資料庫
-						memberServiceImpl.updateMember(member, memberSession.getMemberId());// 進行更新
-					} else {
-						System.out.println("輸入格式錯誤");
-						return "MemberSystem/error";
-					}
-				} else {
-					memberServiceImpl.updateMember(member, memberSession.getMemberId());// 沒修改照片話直接更新
-				}
-				return "redirect:/findMember";// 更新完成後 返回getMember 方法 導回會員查詢頁面
+		Member memberSession = (Member) httpSession.getAttribute("memberSession");// 取得Session的Member
+		model.addAttribute("memberInput", member);// 輸入錯誤將輸入的直傳回
+		if (memberSession == null) {
+			System.out.println("未登入");
+			return "MemberSystem/noLogin";
+		} else if (!member.getMemberTwid().matches(Regular.TWID)) {
+			System.out.println("身分證字號格式錯誤");
+			model.addAttribute("errorTwId", "身份證字號格是錯誤");
+			return "MemberSystem/updateMember";
+		} else if (member.getMemberFname().isEmpty()) {
+			System.out.println("姓名輸入格式錯誤");
+			model.addAttribute("errorFname", "姓名輸入格式錯誤");
+			return "MemberSystem/updateMember";
+		} else if (member.getMemberSname().isEmpty()) {
+			System.out.println("暱稱輸入格式錯誤");
+			model.addAttribute("errorSname", "暱稱輸入格式錯誤");
+			return "MemberSystem/updateMember";
+		} else if (member.getMemberGd().isEmpty()) {
+			System.out.println("性別輸入格式錯誤");
+			model.addAttribute("errorGd", "性別輸入格式錯誤");
+			return "MemberSystem/updateMember";
+		} else if (member.getMemberHb().isEmpty()) {
+			System.out.println("生日輸入格式錯誤");
+			model.addAttribute("errorHb", "生日輸入格式錯誤");
+			return "MemberSystem/updateMember";
+		} else if (!member.getMemberCel().matches(Regular.PHONE)) {
+			System.out.println("手機號碼格式錯誤");
+			model.addAttribute("errorCel", "手機號碼格式錯誤");
+			return "MemberSystem/updateMember";
+		} else if (!file.getOriginalFilename().isEmpty()) {// 檢驗看圖檔是否有上傳
+			String fileType = file.getContentType(); // 獲得檔案型別
+			if (fileType.equals("image/jpeg") || fileType.equals("image/gif")) {// 查看圖片資料類型
+				memberServiceImpl.deleteMemberPic(memberSession.getMemberId(), request);// 刪除原本照片
+				String path = memberServiceImpl.addMemberPic(file, request);// 新增照片
+				member.setMemberPic(path);// 把圖片儲存路徑儲存到資料庫
+				memberServiceImpl.updateMember(member);// 進行更新
 			} else {
-				return "MemberSystem/noLogin";
+				System.out.println("輸入圖片格式錯誤");
+				model.addAttribute("errorPic", "輸入圖片格式錯誤");
+				return "MemberSystem/updateMember";
 			}
 		} else {
-			System.out.println("輸入格式錯誤");
-			return "MemberSystem/error";
+			memberServiceImpl.updateMember(member);// 沒修改照片話直接更新
 		}
-
+		return "redirect:/findMember";// 更新完成後 返回getMember 方法 導回會員查詢頁面
 	}
 
 	/**

@@ -15,7 +15,7 @@ public interface IMemberService {
 
 	public void addMember(Member member); // 註冊帳號時 設定帳號狀態
 
-	public void updateMember(Member member, Integer memberId);//更新帳號資料
+	public void updateMember(Member member);//更新帳號資料
 
 	public Member findMemberByEmail(String memberEmail);//取得會員資料listByEmail
 

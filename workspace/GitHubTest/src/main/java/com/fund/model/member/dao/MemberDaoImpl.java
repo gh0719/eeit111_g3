@@ -36,12 +36,18 @@ public class MemberDaoImpl implements IMemberDao {
 
 	
 	/**
-	 * @Dao 更新帳號資料
+	 * @Dao 更新帳號資料 1
 	 */
     @Override
-	public void updateMember(Query query) {
-		query.executeUpdate();
-		System.out.println("update 完成");
+	public void updateMember(Member member) {
+    	try {
+			getSession().clear();
+			getSession().update(member);
+			System.out.println("update 完成");
+		} catch (Exception e) {
+			System.out.println("update 失敗 -Dao");
+			e.printStackTrace();
+		}
 	}
 
 

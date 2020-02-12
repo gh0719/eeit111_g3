@@ -11,7 +11,7 @@ public interface IMemberDao {
 
 	public void addMember(Member member);//註冊帳號
 
-	public void updateMember(Query query);//更新帳號資料
+	public void updateMember(Member member);//更新帳號資料
 	
 	public Member findMemberByEmail(String memberEmail);//取得會員資料
 	

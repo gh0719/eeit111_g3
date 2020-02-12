@@ -58,36 +58,13 @@ public class MemberServiceImpl implements IMemberService {
 	 * @Service 更新帳號資料
 	 */
 	@Override
-	public void updateMember(Member member, Integer memberId) {
-		if (member.getMemberPic() != null) {
-			String hqlstr = "update Member m set m.memberFname=:fn,m.memberSname=:sn,m.memberTwid=:twid,"
-					+ "m.memberGd=:gd,m.memberHb=:hb,m.memberTel=:tel,m.memberCel=:cel,m.memberPic=:pic where m.memberId=:Id";
-			Query query = getSession().createQuery(hqlstr);
-			query.setParameter("fn", member.getMemberFname());
-			query.setParameter("sn", member.getMemberSname());
-			query.setParameter("twid", member.getMemberTwid());
-			query.setParameter("gd", member.getMemberGd());
-			query.setParameter("hb", member.getMemberHb());
-			query.setParameter("tel", member.getMemberTel());
-			query.setParameter("cel", member.getMemberCel());
-			query.setParameter("pic", member.getMemberPic());
-			query.setParameter("Id", memberId);
-			memberDaoImpl.updateMember(query);
-		} else {
-			String hqlstr = "update Member m set m.memberFname=:fn,m.memberSname=:sn,m.memberTwid=:twid,"
-					+ "m.memberGd=:gd,m.memberHb=:hb,m.memberTel=:tel,m.memberCel=:cel where m.memberId=:Id";
-			Query query = getSession().createQuery(hqlstr);
-			query.setParameter("fn", member.getMemberFname());
-			query.setParameter("sn", member.getMemberSname());
-			query.setParameter("twid", member.getMemberTwid());
-			query.setParameter("gd", member.getMemberGd());
-			query.setParameter("hb", member.getMemberHb());
-			query.setParameter("tel", member.getMemberTel());
-			query.setParameter("cel", member.getMemberCel());
-			query.setParameter("Id", memberId);
-			memberDaoImpl.updateMember(query);
+	public void updateMember(Member member) {
+		try {
+			memberDaoImpl.updateMember(member);
+		} catch (Exception e) {
+			System.out.println("update 失敗 -Service");
+			e.printStackTrace();
 		}
-
 	}
 
 	/**

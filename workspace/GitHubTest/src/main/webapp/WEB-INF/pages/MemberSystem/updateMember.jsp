@@ -13,27 +13,27 @@
 <form action="memberUpdate" method="post" enctype="multipart/form-data">
 頭像:<br>
 <img  src="${getMember.memberPic}${memberInput.memberPic}" style="height: 100px;width: 120px"><br>
-<input type="file" name="file"  ><br>${errorPic}
+<input type="file" name="file" id="memberPic"><br>${errorPic}
 姓名 :<br> 
-<input type="text" value="${getMember.memberFname}${memberInput.memberFname}" name="memberFname">${errorFname}<br> 
+<input type="text" value="${getMember.memberFname}${memberInput.memberFname}" name="memberFname" id= "memberFname">${errorFname}<br> 
 暱稱 :<br> 
-<input type="text" value="${getMember.memberSname}${memberInput.memberSname}" name="memberSname">${errorSname}<br> 
+<input type="text" value="${getMember.memberSname}${memberInput.memberSname}" name="memberSname" id="memberSname">${errorSname}<br> 
 身分證字號 :<br> 
-<input type="text" value="${getMember.memberTwid}${memberInput.memberTwid}" name="memberTwid">${errorTwId}<br> 
+<input type="text" value="${getMember.memberTwid}${memberInput.memberTwid}" name="memberTwid" id="memberTwid">${errorTwId}<br> 
 性別 :<br> 
-<input type="text" value="${getMember.memberGd}${memberInput.memberGd}" name="memberGd">${errorGd}<br> 
+<input type="text" value="${getMember.memberGd}${memberInput.memberGd}" name="memberGd" id="memberGd">${errorGd}<br> 
 生日 :<br> 
-<input type="text" value="${getMember.memberHb}${memberInput.memberHb}" name="memberHb">${errorHb}<br> 
+<input type="text" value="${getMember.memberHb}${memberInput.memberHb}" name="memberHb" id="memberHb">${errorHb}<br> 
 市內電話 :<br> 
-<input type="text" value="${getMember.memberTel}${memberInput.memberTel}" name="memberTel"><br> 
+<input type="text" value="${getMember.memberTel}${memberInput.memberTel}" name="memberTel" id="memberTel"><br> 
 手機號碼 :<br> 
-<input type="text" value="${getMember.memberCel}${memberInput.memberCel}" name="memberCel">${errorCel}<br> 
+<input type="text" value="${getMember.memberCel}${memberInput.memberCel}" name="memberCel" id="memberCel">${errorCel}<br> 
 
-<input type="hidden" value="${getMember.memberId}${memberInput.memberId}"  name="memberId">
-<input type="hidden" value="${getMember.memberPic}${memberInput.memberPic}"  name="memberPic">
-<input type="hidden" value="${getMember.memberStatus}${memberInput.memberStatus}" name="memberStatus">
-<input type="hidden" value="${getMember.memberEmail}${memberInput.memberEmail}" name="memberEmail">
-<input type="hidden" value="${getMember.memberPwd}${memberInput.memberPwd}" name="memberPwd">
+<input type="hidden" value="${getMember.memberId}${memberInput.memberId}"  name="memberId" id="memberId">
+<input type="hidden" value="${getMember.memberPic}${memberInput.memberPic}"  name="memberPic" id="memberPic">
+<input type="hidden" value="${getMember.memberStatus}${memberInput.memberStatus}" name="memberStatus" id="memberStatus">
+<input type="hidden" value="${getMember.memberEmail}${memberInput.memberEmail}" name="memberEmail" id="memberEmail">
+<input type="hidden" value="${getMember.memberPwd}${memberInput.memberPwd}" name="memberPwd" id="memberPwd">
 
 <input type="submit" value="儲存">               
 <input type="button" value="首頁" onclick="location.href='${pageContext.request.contextPath}'">

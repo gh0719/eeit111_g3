@@ -79,7 +79,7 @@ public class MemberController {
 				memberServiceImpl.addMember(member);// 存入資料庫
 				return "MemberSystem/save";// 註冊成功
 			} else {
-				model.addAttribute("errorPicFormat", "輸入圖片格式錯誤  請確認");
+				model.addAttribute("errorPic", "輸入圖片格式錯誤  請確認");
 				return "MemberSystem/register";
 			}
 		} else {
